@@ -1,0 +1,930 @@
+Title:  Homework 4 Mathematical and Statistical Computing
+By: Saniya Khullar
+Fall 2015
+Professor Pilcher
+Thank you so much!! :)
+========================================================
+
+
+
+```{r}
+#**************
+#1.)  Please create the vectors:
+#1 a.)  (1,2,3,...,19,20)
+  vector1a <- c(seq(1:20)) #please note that this specifies a vector of numbers from 1 to 20.  Automatically, R will understand to increment by 1 unit. 
+  vector1a  #this vector has been assigned this sequence of numbers from 1 to 20
+
+#1 b.) (20,19,...,2,1)
+  #This seems to be decreasing from 20 down to 1 in increments of 1
+  vector1b <-  c(seq(20,1,-1))  #here please note that we are Concatenating using the sequence vector. 
+  #seq(startValue, finalValue, increments).  startValue = 20 ; finalValue (end of list) = 1 ; and we are going down by 1 unit each time
+  vector1b
+
+#1 c.) (1,2,3,...,19,20,19,18,...,2,1)
+  #please note that here it is like there is an increasing sequence from 1 to 20, followed by a decreasing sequence from 20 to 1. 
+  vector1c <- c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1)
+  vector1c
+  #please note that we could also have just combined (concatenated) the result of the increasing sequence from 1a with the result of the decreasing sequnece from 1b to get this mountain-like (increasing then decreasing) sequence for vector1c. This alternative method is specified below...please see:
+  vector1c_alternate <- c(vector1a, vector1b)
+  vector1c_alternate
+
+#1 d.) (4,6,3).  Please assign it to the name tmp
+    tmp <- c(4,6,3)  #here, <- is the assignment operator.  It is a left-facing arrow. 
+    tmp
+#Please look at the help for function rep for 1 e, 1f, and 1g. 
+help(rep)
+#please note that the rep function will let us replicate the values in x.  We have rep(x_values, # of times to replicate them)
+
+#1 e.)  (4,6,3, 4,6,3,...,4,6,3) where there are 10 occurrences of 4.  That is, here please have the tmp vector be repeated 10 times. 
+  vector1e <- rep(tmp, 10)
+  vector1e
+
+#1 f.) (4,6,3, 4,6,3,...,4,6,3,4) where there are 11 occurrences of 4, 10 occurrences of 6, and 10 occurrences of 3    
+    #that is, here we have this sequence (4,6,3) repeating 10 times, and then we have an extra 4 at the end. 
+    #This is the same as #1 e.), except that we have an extra 4 at the end. 
+  
+  vector1f <- c(vector1e, 4)  #this shows that this vector1f is essentially the vector1e with an extra 4 at the end
+  vector1f
+  #or equivalently, we could have done: 
+  vector1f_alternate <- c(rep(tmp,10), 4)
+  vector1f_alternate
+
+#1 g.) (4,4,...,4, 6,6,...,6, 3,3,...,3) where there are 10 occurrences of 4, 20 occurrences of 6 and 30 occurrences of 3. 
+  #Please note that here we have 10  4's in a row, followed by 20 6's, and then by 30 3's.  
+  #The rep function is: rep(x_values, # of times to replicate them)
+  vector1g <- c(rep(4,10), rep(6, 20), rep(3, 30))
+  vector1g
+```
+
+```{r}
+#******************************
+#2.)  Please create a vector of the values of:  (e^x)(cos(x)) at x = 3, 3.1,3.2,...,5.9, 6
+#Therefore, we please note that here we are incrementing the list of x values by 0.1 as we go from x = 3 to x = 6. 
+seq(3, 6, 0.1) #Please note that this will thereby give us the values that X can take: 
+#3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 3.9 4.0 4.1 4.2 4.3 4.4 4.5 4.6 4.7 4.8 4.9 5.0 5.1 5.2 5.3 5.4 5.5 5.6 5.7
+# 5.8 5.9 6.0
+#Here, seq(startValue, lastValue, increments).  We startValue at 3, and lastValue at 6, and increments in 0.1 :).
+
+#We therefore apply this and assign this to the xValues vector
+xValues = c(seq(3, 6, 0.1))
+xValues
+
+eExponentValue = exp(xValues)
+xValues = c(seq(3, 6, 0.1))
+eExponentValue 
+
+Value = 2*xValues
+
+cosValue = cos(xValues)
+
+CosineFunction = (exp(xValues))*(cos(xValues))
+CosineFunction  #Please note that this should return the results for (e^(x))(cox(x)) for all of the x values in this vector.  (values of x go from 3 to 6 with 0.1 increments)
+#Here, exp(x) is e^x. 
+
+
+```
+
+```{r}
+#3.)  Please create the following vectors: 
+#3 a.)  ((0.1^3)(0.2^1), (0.1^6)(0.2^4), (0.1^9)(0.2^7),...(0.1^36)(0.2^34))
+#we please note that here, for 0.1, we are incrementing the exponent by 3 units from 3 all the way to 36. 
+# For 0.2, we are incrementing the exponent by 3 from 1 to 34. 
+Exponent0.1 = seq(3, 36, 3) #starting with exponent 3 and going up to exponent 36, incrementing by 3 units. 
+Exponent0.1
+
+Exponent0.2 = seq(1, 34, 3)
+Exponent0.2
+
+Sequence0.1 = (0.1)^(Exponent0.1)
+Sequence0.1
+
+Sequence0.2 = (0.2)^(Exponent0.2)
+Sequence0.2
+
+#please note that both Sequence0.1 and Sequence0.2 have the same length.  We can multiply them elementwise to get:  
+ #((0.1^3)(0.2^1), (0.1^6)(0.2^4), (0.1^9)(0.2^7),...(0.1^36)(0.2^34))
+#That is:
+Vector3a = Sequence0.1*Sequence0.2
+Vector3a  #please note that this is indeed the sequence: ((0.1^3)(0.2^1), (0.1^6)(0.2^4), (0.1^9)(0.2^7),...(0.1^36)(0.2^34))
+
+#for instance, the first term is: 2.000000e-04  = (0.1^3)*(0.2^1) ; the 2nd term is 1.600000e-09 = (0.1^6)(0.2^4)
+
+
+
+
+# 3b.)  (2, (2^2)/2, (2^3)/3,...,(2^25)/25)
+
+SequenceNumbers3b = seq(1:25) #these are the list of numbers from 1 to 25
+Vector3b = (2^(SequenceNumbers3b))/(SequenceNumbers3b)  #here, we are respectively raising 2 to the value in the sequence (of #s from 1 to 25).  Then we are dividing that numerator by the same # in the sequence. 
+Vector3b #This returns the vector that we want, which is of the form:(2, (2^2)/2, (2^3)/3,...,(2^25)/25)
+#To check, we please note that the first term in Vector 3b is 2.000000e+00 = 2; the 2nd term is 2.000000e+00 = (2^2)/2 = 4/2 = 2.  The 3rd term is 2.666667e+00 = (2^3)/3 = (8)/3 = 2 and 2/3.  And so on!  Yay!! :)
+
+```
+
+```{r}
+#***************************
+#4.)  Please calculate the following sums: 
+# 4 a.)  summation of: ((i^3)+(4)(i^2)) where i goes from 10 to 100. 
+Sequence_i_4a = seq(10,100,1) # Please note that: this will be the list of #s from 10 to 100, which will be the set of values for i here
+Sequence_i_4a
+length(Sequence_i_4a) #this indicates that there are 91 elements in this sequence of #s from 10 to 100. 
+iCubed = (Sequence_i_4a)^3  #this will be i^3
+iCubed
+
+iSquared = (Sequence_i_4a)^2  #this will be i^2. 
+iSquared
+
+#Please note that CompleteSequence_4a  will contain a sequence of these 91 respective values for ((i^3)+(4)(i^2))
+CompleteSequence_4a = iCubed + (4)*(iSquared)
+CompleteSequence_4a 
+
+# Please note here that the 1st term in this sequence (for i = 10) is: 1400 = ((10^3) + (4)(10^2)) = (1000 + (4)(100)) = (1000 + 400) = 1400.  
+#The 2nd term in this sequence (for i = 11) is: 1815 = ((11^3) + (4)(11^2)) = (1331 + (4)(121)) = (1331 + 484) = 1815. 
+# And so on for the remaining 89 terms in the sequence (i = 12 to i = 100)!  This is a helpful check! Yay!! :)
+
+Sequence_4a_summation = sum(CompleteSequence_4a)  #please note that the sum() function sums up all these 91 terms in the sequence. 
+
+Sequence_4a_summation
+#Please note that 26852735 is the TOTAL Sum of the values: ((i^3)+(4)(i^2)) for i going from 10 to 100. 
+# That is, 1400 + 1815 + 2304 + 2873 + 3528 + 4275 + 5120 + 6069 + 7128 + 8303 + 9600 +11025 +...+ 1,040,000 = 26,852,735
+
+
+#4 b.)  summation of: (((2^i)/(i)) + ((3^i)/(i^2))) where i goes from 1 to 25. 
+
+Sequence_i_4b = seq(1:25)
+Sequence_i_4b
+length(Sequence_i_4b) #25 is the length of this sequence.
+
+# Please note that the (2^i)/(i) part is very similar to 3b.)  that had vector: (2, (2^2)/2, (2^3)/3,...,(2^25)/25)
+
+# Here, we will refer to (((2^i)/(i)) + ((3^i)/(i^2))) as (part1_4b + part2_4b)
+# part1_4b = (2^i)/(i)  ;  part2_4b = ((3^i)/(i^2))
+part1_4b = (((2)^(Sequence_i_4b))/(Sequence_i_4b))
+part1_4b
+
+#To check, we please note that the first term in Vector part1_4b is 2.000000e+00 = 2; the 2nd term is 2.000000e+00 = (2^2)/2 = 4/2 = 2.  The 3rd term is 2.666667e+00 = (2^3)/3 = (8)/3 = 2 and 2/3.  And so on!  Yay!! :)  This was the same check for part 3b.)
+
+#part2_4b = ((3^i)/(i^2))
+part2_4b = ((3^(Sequence_i_4b))/((Sequence_i_4b)^2))
+part2_4b
+
+#To check the results for the part2_4b vector, we please note that the first term in Vector part2_4b is 3.000000e+00 = ((3^1)/(1^2)) = 3/1 = 3; the 2nd term is 2.250000e+00 = (3^2)/(2^2) = 9/4 = 2.25.  The 3rd term is 3.000000e+00 = (3^3)/(3^2) = (27)/9 = 3.  And so on!  Yay!! :)
+
+
+#Please note that CompleteSequence_4b  will contain a sequence of these 25 respective values for  (((2^i)/(i)) + ((3^i)/(i^2))) = (part1_4b + part2_4b)
+CompleteSequence_4b = part1_4b + part2_4b
+CompleteSequence_4b
+
+Sequence_4b_summation = sum(CompleteSequence_4b)  #please note that the sum() function sums up all these 25 terms in the sequence. 
+
+Sequence_4b_summation
+#Therefore, please note that 2,129,170,437 is the TOTAL Sum of the values (((2^i)/(i)) + ((3^i)/(i^2))) for i going from 1 to 25.  This is a BIG sum indeed! Wowsers!
+```
+
+
+```{r}
+# *******************************
+#5.)  Please use the R function paste to create the following character vectors of length 30: 
+
+#please note this example of the paste function that Saniya found from stat.ethz.ch/R-manual/R-devel/library/base/html/paste.html, while she was looking for help on the paste function. 
+paste0(1:12)
+nth <- paste0(1:12, c("st", "nd", "rd", rep("th", 9)))
+nth
+#here, the output is:  "1st"  "2nd"  "3rd"  "4th"  "5th"  "6th"  "7th"  "8th"  "9th"  "10th" "11th" "12th"
+#that is, here we are having the #s 1 to 12, corresponding to the 1st to 12th school grades.  Then, we are attaching to the 1st number: 1, the st --> 1st.  To the 2nd letter, we are attaching nd --> 2nd.  The 3rd number, 3, has rd attached to it --> 3rd.  Then, for the remaining 9 letters, we will be attaching th to them...going from 4 --> 4th to 12 --> 12th.  Hence, in shorthand, we just write, rep("th", 9) to signify that we will be then attaching th for the last 9 numbers in the sequence from 1 to 12 (the number 4 to 12).
+
+#5 a.)  ("label 1", "label 2", ... , "label 30").  Please note that there is a single space between label and the number following. That is: "label 3" has a space between label and 3. 
+
+# We will be using the paste function here.
+vector5a = paste(c("label"), 1:30) #For each label, we please first print out the "label " followed by the respective # from 1 to 30.  Thus, we have "label 1"  "label 2"  "label 3"..."label 30"
+#or equivalently we could have just writte:
+
+vector5a_Alternative = paste("label", 1:30) 
+length(vector5a) #this vector is 30 units long, which it should be! Yay!! :)
+vector5a 
+
+
+
+#5 b.) ("fn1", "fn2", ...,"fn30").  In this case there is NO space between fn and the number following it. 
+
+# Please note that we will be using the paste function.
+#Here we have the string fn. Then, following fn we will be attaching the #s from 1 to 30 to fn, one at a time. Therefore, we will get fn 1, fn 2, fn 3, ..., fn 30. This list of numbers is given by 1:30 However, since we do NOT want a space between fn and the # following it, we will write sep = "", where the "" indicates NO space.  The default (that was there in the part 5b) was sep = " ", where the paste function had the string added a space and then attached the corresponding number.  Therefore, we get rid of the space by specifying sep = "".  Here, sep is an argument in the paste function that tells us what character string we want to separate the terms when we are pasting them. 
+
+
+#please note that order matters, since if we did:
+#mistake5b = paste(1:30, "fn", sep ="")  #
+#mistake5b  --> "1fn"  "2fn"  "3fn"  "4fn"  "5fn"  "6fn"  "7fn"  "8fn"  "9fn"  "10fn" "11fn" "12fn" "13fn" "14fn" "15fn" "16fn" "17fn" "18fn" "19fn" "20fn" "21fn" "22fn" "23fn" "24fn" "25fn" "26fn" "27fn" "28fn" "29fn" "30fn", which we do NOT want!
+
+#Hence, we have paste(STRING, Set of #s, sep = "")
+vector5b = paste("fn", 1:30, sep ="")  #
+length(vector5b) #this vector is 30 units long, which it should be! Yay!! :)
+vector5b
+
+
+```
+
+```{r}
+#***********************
+#6.)  Please execute the following lines, which create 2 vectors (xVec and yVec) of random integers, which are chosen with replacement (that is the same number can be chosen again since it goes back to the pool after being picked) from the integers: 0, 1,..., 999.  
+#Both vectors have length 250. 
+
+#Please note that we are randomly selecting numbers from 0 to 999 for both the xVec and yVec vectors.  The same numbers can be potentially chosen more than once since there is replacement. 
+
+#In order to ensure that the computer algorithm generating the random numbers tends to be the same (for consistency among the output for the students), please note that Professor Pilcher set the seed to 50.  Thus, our random generated output should be the same.  50 is that code word. This ensures that we get the same random output each time we run the code and that our results won't vary each time we re-run the code, thankfully!
+
+exampleVec <- c(3, 4,5,2, 12, 20, 2000)
+length(exampleVec)
+#Please note that this will yield 7, since there are 7 elements in this vector exampleVec.  This shows us that the length of 250 implies that we will be selecting 250 random numbers each for xVec and yVec from the list of numbers between 0 and 999. 
+#Thus n = 250, the sample size. 
+
+#Please suppose that: 
+#x = (x1, x2,...,xn) denotes the xVec and y = (y1, y2,...yn) denotes the yVec. 
+#Here, since n = 250 for both of them then: 
+
+#xVec =  (x1, x2, x3...,x248, x249, x250)
+
+#yVec =  (y1, y2, y3,...,y248, y249, y250)
+
+```
+
+```{r}
+set.seed(50)
+#sample is a function in R that randomly selects numbers from the numbers in the first bracket, the first argument. 
+#the 2nd argument, 250, specifies the length of the vector; that is, how many numbers we want to randomly select from the set of numbers between 0 and 999. 
+# replace = T  says that it is TRUE that we want replacement.
+xVec <- sample(0:999, 250, replace = T)
+yVec <- sample(0:999, 250, replace = T)
+
+xVec
+yVec
+
+length(xVec) #this is 250, as it should be with n = 250! Yay! :)
+length(yVec) #this is 250, as it should be with n = 250! Yay! :)
+
+# For a quick glimpse of the results, please note: 
+head(xVec) #the 1st 6 elements of the xVec vector are : 708, 437, 200, 767, 513,  44
+head(yVec) #the 1st 6 elements of the yVec vector are : 709, 871, 315, 517, 621, 930
+
+# 6 a.)  Please create the vector:  (y2 - x1, ..., y_n - x_n-1)
+
+#That is,  (y2 - x1, y3 - x2, y4 - x3, y5 - x4, ..., y_n-1 - x_n-2, y_n - x_n-1)
+#hence, here, we please want to take these elements:
+    # these 249 elements:  (y2, y3, y4,...,y_n) from the yVec
+    # these 249 elements: (x1, x2, x3,...,x_n-1) from the xVec
+
+  # We please want ALL elements from the yVec EXCEPT the 1st one, y1. 
+  # We please want ALL elements from the xVec EXCEPT the last one, x_n. 
+
+#Please note this example vector:
+exampleVec <- c(3, 4,5,2, 12, 20, 2000) 
+exampleVec
+#    3    4    5    2   12   20 2000
+length(exampleVec) 
+# is 7, referring to the fact that there are 7 elements in the exampleVec.
+
+exampleVec[1]
+# 3
+#That is, to get the 1st element in the vector exampleVec, please type: exampleVec[1], where [1] is the index of the element we want, which is the 1st index. 
+
+
+#To get the 2nd element in the exampleVec, we will use index 2:
+exampleVec[2]
+#  4
+
+
+#To get the 5th element in the exampleVec, we will use index 5:
+exampleVec[5]
+#  12
+
+
+#To get the last element in the exampleVec, we please note that there are 7 elements in the example vec, so we should take the 7th index: 
+exampleVec[7]
+# 2000   
+
+
+#To get all elements EXCEPT for the LAST element in exampleVec we will use:
+exampleVec[1:6] #this specifies that we want the 1st, 2nd, 3rd, 4th, 5th, and 6th elements from the exampleVec vector.
+# 3  4  5  2 12 20
+
+#To get all elements EXCEPT for the FIRST element in exampleVec we will use:
+exampleVec[2:7] #this specifies that we want th 2nd, 3rd, 4th, 5th, 6th, and 7th elements from the exampleVec vector.
+# 4    5    2   12   20 2000
+
+# Therefore, please note that for 6 a.) we want
+
+ # these 249 elements:  (y2, y3, y4,...,y_n) from the yVec
+    # these 249 elements: (x1, x2, x3,...,x_n-1) from the xVec
+
+#Please note that yVec = yVec[1:250] and xVec = xVec[1:250]
+
+  # We please want ALL elements from the yVec EXCEPT the 1st one, y1. 
+    #Here, we please take the elements 2 to 250 from the yVec.  
+
+yVec_exceptFirstNum = yVec[2:250]
+yVec_exceptFirstNum
+
+length(yVec_exceptFirstNum) #this is 249 elements, which we want! Yay! :)
+
+head(yVec)  #the original first 6 elements of the yVec.  Here, the 1st element, 709, will be removed for the new yVec. Instead, the 2nd element, 871, will start off the new yVec. 
+head(yVec_exceptFirstNum) #the 1st 6 elements of the yVec without the 1st number. 
+
+
+  # We please want ALL elements from the xVec EXCEPT the last one, x_n. 
+xVec_exceptLastNum = xVec[1:249]
+xVec_exceptLastNum  #we are starting with 708 as before, but now end with the 249th element, 238, instead of 178. 
+length(xVec_exceptLastNum) #this is 249 elements, which we want! Yay! :)
+
+#Thus, compared respectively with xVec and yVec:
+# xVec_exceptLastNum = (x1, x2, x3,...,x_n-1) 
+# yVec_exceptFirstNum = (y2, y3, y4,...,y_n)
+
+#Please note that since BOTH xVec_exceptLastNum AND yVec_exceptFirstNum have the same # of elements, 249, we can subtact the respective components from the xVec_exceptLastNum vector from the components in the yVec_exceptFirstNum. 
+
+#xVec_exceptLastNum = (x1, x2, x3,...,x_n-1)  = 708, 437, 200, 767, 513, 44,...,760, 238
+#yVec_exceptFirstNum = (y2, y3, y4,...,y_n) = 871, 315, 517, 621, 930, 437,...,668, 791
+
+# Thus, we please find that: (y2 - x1, ..., y_n - x_n-1) is given by: 
+
+SubtractionVector_6b = yVec_exceptFirstNum - xVec_exceptLastNum
+SubtractionVector_6b
+
+#To please view the first 6 results of this new vector:  (y2 - x1, y3 - x2, y4 - x3, y5 - x4, y6 - x5, y7 - x6), we please use the head function:
+head(SubtractionVector_6b)
+
+#Here,  163, -122,  317, -146,  417,  393  are the 1st 6 results. 
+# y2 - x1 = 871 - 708 = 163, which is right! :)
+# y3 - x2 = 315 - 437 = -122, which is also right! :)
+# y4 - x3 = 517 - 200 = 317, which is also right! :)
+# y5 - x4 = 621 - 767 = -146, which is right as well! :)
+# y6 - x5 = 930 - 513 = 417, which is right! :)
+# y7 - x6 = 791 - 238 = 393, which is right! YAY! :) :)
+
+
+#That is,  (y2 - x1, y3 - x2, y4 - x3, y5 - x4, ..., y_n-1 - x_n-2, y_n - x_n-1) is given by SubtractionVector_6b
+#Answer: SubtractionVector_6b
+
+
+#****************
+
+# 6 b.) Please create the vector: 
+#( ((sin(y1))/(cos(x2))), ((sin(y2))/(cos(x3))),..., ((sin(y_n-1))/(cos(xn)))
+
+#With sample size, n = 250: 
+
+#xVec = (x1, x2,...,xn)  =  (x1, x2, x3...,x248, x249, x250)
+#yVec =  (y1, y2,...yn)   =  (y1, y2, y3,...,y248, y249, y250)
+
+#xVec_exceptLastNum = (x1, x2, x3,...,x_n-1)  = (x1, x2, x3,...,x249) 
+#yVec_exceptFirstNum = (y2, y3, y4,...,y_n) = (y2, y3, y4,...,y250)
+
+#Therefore, according to Saniya, please note that here, we want to have 4 sequences: 
+
+#1st sequence: yVec_exceptLastNum = ((y1, y2,...y_n-1))  = ((y1, y2,...y249))   ;  this sequence does NOT have the LAST term, y250. 
+#2nd sequence: xVec_exceptFirstNum = ((x2, x3, x4,...,x_n)) = ((x2, x3, x4,...,x250)) ; this sequence does NOT have the FIRST term, x1. 
+
+#SOHCAHTOA;  sin = (opposite side) / (hypotenuse) ; cosine = (adjacent side) / (hypotenuse);  tangent  = (opposide side) / (adjacent side)
+
+#3rd sequence is built up off the 1st sequence and involves applying the sine function, sin(), to each of the 249 elements in the yVec_exceptLastNum. 
+
+#This will be the numerator for the final sequence. 
+
+#4th sequence is built up off the 2nd sequence and involves applying the cosine function, cos(), to each of the 249 elements in the xVec_exceptFirstNum. 
+
+#We please attempt this for problem 6b.)
+
+
+# Please note that based on Saniya's layout for 6b.) above, we will please proceed to find: 
+
+#yVec_exceptLastNum = ((y1, y2,...y_n-1))  = ((y1, y2,...y249))  
+# and then:
+# xVec_exceptFirstNum = ((x2, x3, x4,...,x_n)) = ((x2, x3, x4,...,x250))
+
+#Step 1: Here, for yVec_exceptLastNum = ((y1, y2,...y_n-1))  = ((y1, y2,...y249)), we will take the 1st all the way to the 249th element.  We will NOT take the LAST element, the 250th element, from the original yVec.
+yVec_exceptLastNum = yVec[1:249]
+yVec_exceptLastNum
+length(yVec_exceptLastNum) #this is 249, which is what we want! Yay!! :)
+head(yVec_exceptLastNum) #will let us see the 1st 6 elements of this new y vector. 
+#709 871 315 517 621 930...same as the original yVec since the only change was in NOT including the last element, which is NOT reflected here. 
+
+#Step 2:  Here, for xVec_exceptFirstNum = ((x2, x3, x4,...,x_n)) = ((x2, x3, x4,...,x250)), we will take the 2nd all the way to the 250th element.  We will NOT take the FIRST element, the 1st element, from the original xVec.
+xVec_exceptFirstNum = xVec[2:250]
+xVec_exceptFirstNum 
+length(xVec_exceptFirstNum) #this is 249, which is what we want! Yay!! :)
+head(xVec_exceptFirstNum) #will let us see the 1st 6 elements of this new x vector. 
+#437 200 767 513  44 699....these are the 1st 6 elements after the 1st element from xVec is removed in this new vector.
+
+
+#Both xVec_exceptFirstNum and yVec_exceptLastNum have the SAME number of elements, 249! That means that we can perform elementwise (respective corresponding elements) operations involving dividing, multiplying, adding, and subtracting! YAY! :)
+
+#Step 3: Next, we please apply the sine function on each of the elements in the yVec_exceptLastNum vector to get the numerator:  (sin(y1), sin(y2), sin(y3),...,sin(y_n-1))
+sin_yVec_exceptLastNum = sin(yVec_exceptLastNum)
+sin_yVec_exceptLastNum
+head(sin_yVec_exceptLastNum) #to please view the first 6 elements: (sin(y1), sin(y2), sin(y3), sin(y4), sin(y5), sin(y6))
+
+#[1] -0.84143841 -0.70245070  0.74513326  0.97844413 -0.86003865  0.08845877
+
+length(sin_yVec_exceptLastNum) #249 units, which it should be! :)
+
+#Step 4: Next, we please apply the cosine function on each of the elements in the xVec_exceptFirstNum vector to get the denominator:  (cos(x2), cos(x3), cos(x4),...,cos(xn))
+
+cos_xVec_exceptFirstNum = cos(xVec_exceptFirstNum)
+cos_xVec_exceptFirstNum
+head(cos_xVec_exceptFirstNum) #to please view the first 6 elements: (cos(x2), cos(x3), cos(x4), cos(x5), cos(x6), cos(x7))
+#  -0.94966826  0.48718768  0.89984053 -0.60550389  0.99984331  0.00436541
+
+length(cos_xVec_exceptFirstNum) #249 units, which it should be! :)
+
+# FINAL STEP: 
+# Now, we please find: ( ((sin(y1))/(cos(x2))), ((sin(y2))/(cos(x3))),..., ((sin(y_n-1))/(cos(xn)))
+# Here, Trignometric_Vector6b  = ( ((sin(y1))/(cos(x2))), ((sin(y2))/(cos(x3))),..., ((sin(y_n-1))/(cos(xn)))
+# We will be using elementwise division. 
+# The numerator is:  sin_yVec_exceptLastNum = (sin(y1), sin(y2), sin(y3),...,sin(y_n-1))
+# The denominator is: cos_xVec_exceptFirstNum = (cos(x2), cos(x3), cos(x4),...,cos(xn))
+
+# Thus, Trignometric_Vector6b  = ( ((sin(y1))/(cos(x2))), ((sin(y2))/(cos(x3))),..., ((sin(y_n-1))/(cos(xn))) =  ((sin_yVec_exceptLastNum)/(cos_xVec_exceptFirstNum))
+Trignometric_Vector6b = ((sin_yVec_exceptLastNum)/(cos_xVec_exceptFirstNum))
+Trignometric_Vector6b
+head(Trignometric_Vector6b) #0.8860340 -1.4418482  0.8280726 -1.6159172 -0.8601734 20.2635647
+
+#ANSWER:  Please use Trignometric_Vector6b
+```
+
+```{r}
+
+# 6 c.)  Please create the vector:  (x1 + 2x2 - x3,..., x_n-2 + 2x_n-1 - xn)
+
+# With sample size, n = 250: 
+
+# xVec = (x1, x2,...,xn)  =  (x1, x2, x3...,x248, x249, x250)
+# yVec =  (y1, y2,...yn)   =  (y1, y2, y3,...,y248, y249, y250)
+
+#We look at 
+#x1 + 2x2 - x3 ... x_n-2 + 2x_n-1 - xn and for each element, we see the:
+#  1st term in the triple addition:  x1,..., x_n-2
+
+#  2nd term in the triple addition: 2x2,...2x_n-1.   Essentially (2)*(x2, ..., x_n-1)
+#      Here, we please note that there are 3 different vectors we need, using the xVec: 
+ 
+ # 3rd term in the triple addition:  -x3,..., -xn.  Essentially  (-1)*(x3,...,xn)
+  
+#All 3 terms have the same length since they are being elementwise added, subtracted, and/or both. 
+
+#n = 250
+#Hence, 
+# n - 1 = 249
+# n - 2 = 248
+# xVec_Term1_6c = (x1, x2, x3,..., x_n-2) = (x1, x2, x3,...,x248)  
+# xVec_Term2_6c = (x2, x3, x4, ..., x_n-1) = (x2, x3, x4, ..., x249) 
+# xVec_Term3_6c = (x3, x4, x5, ..., xn) =  (x3, x4, x5, ..., x250)
+
+# Please note: 
+# xVec_Term1_6c has the 1st element from the xVec up to the 248th element.  It is missing the last 2 elements.  # Thus, it has a length of 248 elements. 
+
+# xVec_Term2_6c has the 2nd element from the xVec up to the 249th element.  It is missing the first and the last elements.  Thus, it has a length of 248 elements. 
+
+
+# xVec_Term3_6c has the 3rd element from the xVec up to the 250th element.  It is missing the first 2 elements, x1 and x2.  Thus, it has a length of 248 elements. 
+
+```
+
+
+```{r} 
+#6 c.) Please note that with Saniya's explanation above, we please proceed to do 6c.) 
+#xVec_Term1_6c = (x1, x2, x3,..., x_n-2) = (x1, x2, x3,...,x248)  
+xVec_Term1_6c = xVec[1:248]
+xVec_Term1_6c
+length(xVec_Term1_6c)  #248 elements, which we want! Yay! :)
+head(xVec_Term1_6c)
+
+#xVec_Term2_6c = (x2, x3, x4, ..., x_n-1) = (x2, x3, x4, ..., x249) 
+
+xVec_Term2_6c = xVec[2:249]
+xVec_Term2_6c
+length(xVec_Term2_6c)
+head(xVec_Term2_6c)
+
+#xVec_Term3_6c = (x3, x4, x5, ..., xn) =  (x3, x4, x5, ..., x250)
+xVec_Term3_6c = xVec[3:250]
+xVec_Term3_6c
+length(xVec_Term3_6c)
+head(xVec_Term3_6c) #708 437 200 767 513  44
+
+#Therefore, please note that: 
+
+#(x1 + 2x2 - x3,..., x_n-2 + 2x_n-1 - xn) is defined by: FinalVector6c 
+
+#  1st term in the triple addition:  x1,..., x_n-2 is given by: xVec_Term1_6c
+
+# 2nd term in the triple addition: 2x2,...2x_n-1.   Essentially (2)*(x2, ..., x_n-1)
+  #This 2nd term is given by:  (2)*(xVec_Term2_6c)
+  
+FinalTerm2_XVector = (2)*(xVec_Term2_6c)
+ #3rd term in the triple addition:  -x3,..., -xn.  Essentially  (-1)*(x3,...,xn)
+    #This 2nd term is given by:  (-1)*(xVec_Term3_6c)
+
+
+
+FinalVector6c <- xVec_Term1_6c + ((2)*(xVec_Term2_6c)) +((-1)*(xVec_Term3_6c))
+FinalVector6c
+
+head(FinalVector6c)  #1382   70 1221 1749  -98  796...these are the 1st 6 elements of the final vector. 
+
+#(x1 + 2x2 - x3,..., x_n-2 + 2x_n-1 - xn)
+# please note that we run checks to see if this makes sense: 
+head(xVec)
+# 708 437 200 767 513  44 ...  the first 6 terms of the xVec. 
+# x1 = 708 ; x2 = 437 ; x3 = 200 ; x4 = 767 ; x5 = 513 ; x6 = 44
+#Therefore, the first term in the FinalVector6c is: 1382. ?= x1 + 2x2 - x3   :S
+# x1 + 2x2 - x3 = 708 + (2)*(437) - 200  = 1382!  Yay! :)
+
+#The second term in the FinalVector6c is: 70. ?= x2 + 2x3 - x4
+# x2 + 2x3 - x4 = 437 + (2)*(200) - 767 = 70!  Yay!! :) :)
+
+#Therefore, please note that answer here for a vector that represents: (x1 + 2x2 - x3,..., x_n-2 + 2x_n-1 - xn) is given by: 
+FinalVector6c
+
+
+```
+
+
+```{r}
+#6 d.)  Please calculate the summation of: 
+# ((e^(-x_(i+1)))/(((X_i) + 10))) with i = 1 to n - 1. 
+# Here, n = 250, since that is the sample size.  Therefore, n - 1 = 250 - 1 = 249. 
+
+#The denominator, (X_i) + 10), starts with (X1 + 10) and then goes to ((X_n-1) + 10), which is: (X249 + 10). 
+
+#Please note that we have a vector that goes from 1 to 249 for X.  
+
+#In part 6 a.) this vector was defined as: xVec_exceptLastNum, where xVec_exceptLastNum had ALL elements from the xVec EXCEPT the last one, x_n. 
+xVec_exceptLastNum = xVec[1:249] #we are starting with 708 as before, but now end with the 249th element, 238, instead of 178. 
+
+ # Please note that we will start constructing the denominator for: ((e^(-x_(i+1)))/(((X_i) + 10)))
+# Here, the denominator is ((X_i) + 10)
+xVec_exceptLastNum = xVec[1:249]  #we are NOT including the last element from xVec, since the summation only goes to n-1, which is 249. 
+
+head(xVec_exceptLastNum)
+
+Denominator_6d = xVec_exceptLastNum + 10
+head(Denominator_6d) #718 447 210 777 523  54,  and these first 6 terms are all 10 greater than the first 6 terms for the xVec_exceptLastNum, which are:
+head(xVec_exceptLastNum) # 708 437 200 767 513  44
+
+#NOW, it is time to look at the numerator, ((e^(-x_(i+1))) please!
+
+#Here, please note that i goes from 1 to 249.  Then, (i+1) goes from (1 + 1) to (249 + 1), which is 2 to 250. 
+#Hence, (x_(i + 1)) is here just taking the xVec values of 2 to 250. 
+xVec_exceptFirstNum = xVec[2:250]  #we are NOT including the first element from xVec, since the summation only goes to n-1 for i, and this means that i + 1 goes from 2 to n, where n = 250. 
+head(xVec_exceptFirstNum) # 437 200 767 513  44 699
+
+# Then, (-x_(i + 1)) is found by: (-1)*(xVec_exceptFirstNum)
+Negative_xVec_exceptFirstNum = (-1)*(xVec_exceptFirstNum)
+Negative_xVec_exceptFirstNum
+head(Negative_xVec_exceptFirstNum) #-437 -200 -767 -513  -44 -699...these are the first 6 elements of the vector: Negative_xVec_exceptFirstNum
+
+#Then the numerator here, ((e^(-x_(i+1))), is found by raising e to the exponents given by Negative_xVec_exceptFirstNum.  Thus, 
+
+Numerator_6d = exp(Negative_xVec_exceptFirstNum)
+
+head(Numerator_6d)  #1.634223e-190  1.383897e-87  0.000000e+00 1.610389e-223  7.781132e-20 2.680138e-304
+head(xVec) #708 437 200 767 513  44
+
+#The first term in Numerator_6d comes from the 2nd term in xVec, which is 437.  Here, e^(-437) is given by:
+# exp(-437) =  1.634223e-190, which is indeed the first element of the Numerator_6d vector! Yay! :)
+
+Vector_6d = (Numerator_6d)/(Denominator_6d)  #this is: ((e^(-x_(i+1)))/(((X_i) + 10)))
+head(Vector_6d) #[1] 2.276077e-193  3.095965e-90  0.000000e+00 2.072573e-226  1.487788e-22 4.963218e-306
+length(Vector_6d) #has 249 elements as we hoped! Yay :)
+#Then, please note that the summation of these terms in the Vector_6d will be found using the sum function: sum():
+
+FinalSummation_6d = sum(Vector_6d)
+FinalSummation_6d  #0.01269872 is the TOTAL SUM of these 249 elements. 
+
+# That is, please note that the TOTAL SUMmation of the terms: ((e^(-x_(i+1)))/(((X_i) + 10))) for i = 1 to i = 249, is 0.01269872 . 
+```
+
+7.) Please note that this question uses the vectors xVec and yVec that were created in the previous question, 6. We will be using the functions sort, order, mean, sqrt, sum, and abs. 
+
+```{r}
+# 7 a.) Please pick out the values in yVec which are > 600. 
+
+
+sorted_yVec = sort(yVec)  
+
+#Please note that this will return the numbers sorted from least to greatest: 
+# $x will have these numbers in the yVec sorted from least to greatest:   0, 4, 10, 13, 14, 18, 19, 28, 31,...,598, 604, 609, 611,.. 988, 993, 997
+
+# ix will return the index of those values in this sorted list for yVec.  That is: 1,2,3,4,5,6,7,8,9,...231, 139, 227, 245,...,68, 109, 80
+
+#Hence, we will just note the indexes here
+
+
+sorted_yVec = sort(yVec)  
+sorted_yVec
+
+
+
+sort(sorted_yVec, index.return = TRUE) #This gives the corresponding index of the values sorted from least to greatest. 
+#Here, we will use this to identify the index of the smallest number greater than 600.  Then, we will take that index and go to 250 and then these will list out all the numbers that are greater than 600 in yVec. 
+#please note that this applies here because the sorted_yVec is the vector of values from least to greatest for yVec. 
+
+sorted_yVec[141] #This is 598. 
+sorted_yVec[142] #This is 604. 
+
+#Hence, since the values in this sorted_yVec (that has sorted the yVec values from least to greatest) are listed in order, then the values in yVec that are greater than 600 will be having an index from 142 to 250 (there are n = 250 data points in this yVec, the sample size). 
+
+yVecValues_GreaterThan600_Prob7a = sorted_yVec[142:250]
+yVecValues_GreaterThan600_Prob7a
+head(yVecValues_GreaterThan600_Prob7a) #604 609 611 613 615 615  are the 1st 6 results.  These numbers are all greater than 600. 
+
+
+# 7 b.)  What are the index positions in yVec of the values which are > 600? 
+
+sort(yVec, index.return = TRUE)
+#Please note: 
+# $x will have these numbers in the yVec sorted from least to greatest:   0, 4, 10, 13, 14, 18, 19, 28, 31,...,598, 604, 609, 611,.. 988, 993, 997
+
+# ix will return the index of those values in this sorted list for yVec.  That is: 1,2,3,4,5,6,7,8,9,...231, 139, 227, 245,...,68, 109, 80
+
+#Please note that looking at the output for this, we see in the column that the index 139 is where the 1st number larger than 600 (here it is 604) appears. 
+# Therefore, please note that these are the index positions we want: 
+yVec[139] #This gives 604.  
+
+#Here, the index positions are not ordered, so we have to be careful. 
+
+sort(yVec, index.return = TRUE)$ix
+order(yVec)
+
+(sort(yVec, index.return = TRUE))$ix[139]
+(sort(yVec, index.return = TRUE))$ix[1]
+yVec
+
+#Therefore, we please copy all the indexes that follow this indexvalue (of 139) for yVec.  
+
+yindexes_valuesGreaterThan600 <- c(139, 227, 245, 119, 67, 132, 134,   5, 164, 219, 107, 118, 66,  94, 204,120, 181, 249,  13, 237, 174, 205, 114, 55, 154,  96, 161, 232,  27,  45,   1, 180, 220, 36, 247, 125, 131, 102, 138, 105,  18, 143,  34, 238,  95,  10, 243,  60,  88, 175, 250, 241, 183, 123, 142, 136,  33, 239, 101,  86, 230, 206, 189, 163,  50, 203, 97, 224, 172, 246,  32,  16, 150, 187, 2, 167, 168,  11,  72,  79, 157,  48, 211, 213, 151, 178,  42, 111, 182, 159, 6, 63, 61, 158, 190, 176, 8, 137, 226, 59,  58, 173, 127, 214,  28,  43,  68, 109,  80)
+
+yindexes_valuesGreaterThan600 #please note that this will tell us the indexes of the y-values that are all greater than 600. 
+
+yValuesGreaterThan600 = yVec[yindexes_valuesGreaterThan600]  #here we are getting the y-values from the yVec that have values greater than 600; this comes from looking up the index of the y-values for index values corresponding to values greater than 600.  
+yValuesGreaterThan600 #please note that this has ALL the y-values that are GREATER THAN 600.
+
+
+
+#Therefore, the index positions of the y-Values that are greater than 600 is given by: 
+yindexes_valuesGreaterThan600
+```
+
+7 c.) Please find the values in xVec that correspond to the values in yVec which are > 600.  That is, for those same index values for yVec that correpsond to y-values greater than 600, what are those x-Values for those SAME given indexes?
+
+```{r}
+# 7 c.) 
+# Please note that in 7 b.), we created a vector that has the indexes for yVec where the y-values are greater than 600. These indexes are stored in the vector: yindexes_valuesGreaterThan600. 
+#Therefore, to find the x-values that are at these SAME index values, please note that we use: 
+
+corresponding_xVecValues_7c = xVec[yindexes_valuesGreaterThan600]
+corresponding_xVecValues_7c
+
+
+
+```
+
+7 d.)  Please create the vector: ( sqrt(|x1 - xbar|), sqrt(|x2 - xbar|), sqrt(|x3 - xbar|)...,sqrt(|xn - xbar|) )
+
+where xbar denotes the mean of the vector xVec = (x1, x2, ..., xn)
+
+Here, n = 250 since there are 250 observations in this random sample. 
+
+```{r}
+
+# 7 d.)  
+
+# Please find the mean of the xVec.  This will be xbar: 
+
+xbar = mean(xVec)
+xbar  #Hence the mean of the x-values in the vector xVec is 451.856. 
+
+
+#Please note that since we will be doing elementwise subtraction of the xVec values and the mean, xbar, we should create a vector of 250 elements of the mean , xbar.   Here, this vector that we create will be:  xbar_Vec
+
+xbar_Vec = rep(xbar, 250)
+xbar_Vec
+
+#Now, we please calculate the first part of this:  ( x1 - xbar, x2 - xbar, x3 - xbar,...,xn - xbar )
+
+xVec_Minus_xbar = xVec - xbar_Vec
+xVec_Minus_xbar
+
+#The next part is to find:  ( |x1 - xbar|, | x2 - xbar |, | x3 - xbar|,..., |xn - xbar| )
+
+abs_xVec_Minus_xbar = abs(xVec_Minus_xbar)
+abs_xVec_Minus_xbar
+
+#The next step is to then take the square root of the terms in the abs_xVec_Minus_xbar vector: 
+
+FinalVector_7d = sqrt(abs_xVec_Minus_xbar)
+FinalVector_7d
+
+head(FinalVector_7d)  #16.004499  3.854348 15.869972 17.752296  7.819463 20.195445...are the 1st 6 elements of the solution, hopefully!
+
+#Please note that this the final vector that we wanted! YAY! :)
+
+#Therefore, ( sqrt(|x1 - xbar|), sqrt(|x2 - xbar|), sqrt(|x3 - xbar|)...,sqrt(|xn - xbar|) ) is given by FinalVector_7d
+
+```
+
+7 e.)  How many values in yVec are within 200 of the maximum value of the terms in yVec?
+
+Please note that here, we first want to find the maximum y-value of the yVec vector. 
+
+Then, we will subtract this maximum value from all the terms in the yVec.  Then we will take the absolute value to please make sure that we do not worry about positives or negatives.  Hence, we will see what values are less than 200; these will be the y-values that are less than 200 units from the maximum value. 
+
+```{r}
+
+# 7 e.) Please note that using this intuition that Saniya found, we will proceed to find this: 
+
+max_yValue = sort(yVec)[250] #here, we will sort the yVec from least to greatest and then from this sorted vector we will take the maximum y-value, which should be the last value in the sorted vector (the sorted value has index 250). 
+
+#therefore, the maximum value here is 997.  We could have also just used max(yVec) to find this value. 
+
+max_yValue_vec = rep(max_yValue, 250)
+max_yValue_vec #similar to the xbar vector in 7 d.), repeating this maximum y-value will allow us to do elementwise subtraction, etc.
+
+distanceFromMaxYvalue = max_yValue_vec - yVec
+distanceFromMaxYvalue
+
+#Then, we have the distance of the y-values from the maximum y-value.  We can now look at sorting this and seeing the indexes of these values that are less than 200. 
+
+sortingDistanceYfromYmax = sort(distanceFromMaxYvalue, index.return = TRUE)  #index.return = TRUE since we want to get the corresponding indexes. 
+
+sortingDistanceYfromYmax
+sortingDistanceYfromYmax$ix  #this will give us the corresponding indexes of the values in yVec that are less than 200 units from the maximum value in yVec. 
+
+#Please note that we identify the greatest value that is less than 200. (It is listed under $x)  This value is 199.  The corresponding index is found by looking at the results for $ix. 
+
+#This may be a brute-force approach, however. 
+distanceFromMaxYvalue[183]
+  
+indexYvaluesLessThan200FromYmax = c(80, 109, 68, 43,  28, 214, 127, 173,  58,  59, 226,  8, 137, 176, 190, 158,  61,   6,  63, 159, 182, 111,  42, 178, 151, 213, 48, 211,  72,  79, 157,  11, 168, 167,  2, 187, 150,  16,  32, 246, 172, 224,  97, 203,  50, 163, 189, 206, 230,  86, 101,  33, 239, 136, 123, 142, 183)
+#here, 183 is the last index, representing how it is the last sorted y-value that is less than 200.  Here it is 199 units from the maximum y-value, 997. 
+
+
+#Then to find the corresponding yValues that are less than 200 units from the maximum, we will enter these index values from the indexYvaluesLessThan200FromYmax vector. 
+
+FinalResult_7e = yVec[indexYvaluesLessThan200FromYmax]
+FinalResult_7e
+
+#Then to find HOW many y-values are within 200 of the maximum, we just take the length of this vector, which tells us that # of elements: 
+
+Answer_7e = length(indexYvaluesLessThan200FromYmax)
+Answer_7e #57
+
+#Hence, please note that 57 values in yVec are within 200 of the maximum value of the terms in yVec. 
+```
+
+7 f.)  Now, how many numbers in xVec are divisible by 2?  Please note that the mod operator is denoted %%. 
+Please note that the mod, %%, tells us the remainder after a division is performed.  Hence, 
+
+5%%3 gives 2, since 5 divided by 3 yields 1 and 2/3.  The remainder here is 2.
+5/3 gives 1.666667.  Thus to get division we have a/b, where a is divided by b. 
+5%%2  gives 1 since 5 is an odd number, so when divided by 2 it will give a remainder of 1. 
+6%%2 gives 0 since 6 is an even number, and it is divisible by 2! :) Yay!
+Therefore, please note that to find if a number in xVec is divisible by 2, we will take the mod, %%, for all the elements in xVec and will see if it is 0 (= then even # and divisible by 2) or 1 (= then odd # and NOT divisible by 2). 
+
+```{r}
+# 7 f.)  Please note that now we see how many numbers in xVec are divisible by 2 by using the mod, %%, operator.  That is we have Number%%2. 
+
+# If the value returned is 0, then the Number is even and is divisible by 2.  Otherwise, the value returned will be 1 and this means that the Number is odd and is NOT divisible by 2. 
+
+xVecDividedby2 = xVec%%2
+
+xVecDividedby2
+head(xVecDividedby2) # the first 6 values here are 0 1 0 1 1 0.  The first, third, and 6th elements in xVec are even (modulus = 0), while the 2nd, 4th and 5th elements in xVec are odd (modulus = 1).
+
+#Then, we get a vector, xVecDividedby2, that has binary values: 0 and 1's.  0's refer to xVec values that are divisible by 2 (and hence are even and have 0 as a remainder), while the 1's refer to xVec values that are NOT divisible by 2 (and hence are odd with 1 as a remainder). 
+
+#Then, we please get together all the elements that are have modulus 0 when divided by 2 (That is, the numbers that are even and are divisible by 2).
+
+
+#Actually, since the vector has 0's and 1's, we know that if ALL elements were NOT divisible by 2 then the sum of the 250 elements would be the sum of 1 values taken 250 times which is 1 + 1 + ... + 1 = (1)*(250) = 250. 
+# However, if ALL the elements were divisible by 2 then all elements would be 0 and the total sum would be 0 + 0 + ... + 0 = (250)*(0) = 0. 
+# Therefore, we please note that the sum of the vector goes between 0 and 250, and can include 0 and 250. 
+# Hence to find how many numbers in xVec are divisible by 2, we will sum all 250 elements and the sum tells us the # of elements that are NOT divisible by 2 (and hence have values of 1); We will subtract the number of those elements from 250 to get the number of elements that ARE divisible by 2. 
+
+xVecNumOfOddNumbers = sum(xVecDividedby2)
+xVecNumOfOddNumbers #the result, 126, shows that there are 126 numbers here that are NOT divisible by 2. 
+
+#Out of the 250 numbers there are 126 numbers that are NOT divisible by 2, but the remaining numbers are: 
+# That is: 
+
+xVecNumOfEVENNumbers = 250 - xVecNumOfOddNumbers
+xVecNumOfEVENNumbers #124. 
+
+#Hence, please note that there are 124 values in xVec that are divisible by 2. :)
+
+
+
+```
+
+
+7 g.) Please sort the numbers in the vector xVec in the order of increasing values in yVec. 
+
+Please note that we will sort the yVec vector, and this sort will have the y-values listed from least to greatest. 
+
+Then, we will have the index.return = TRUE when we sort the yVec vector so that we know the corresponding indexes of the y-values when the y-values are sorted. 
+
+From here, we will please collect those values to create a vector of these indexes that correspond to the values of y from least to greatest, which will be called the: sortedYvec_indexes vector. 
+
+```{r}
+# 7 g.)  Please note that given Saniya's thought process above for 7 g.) we please proceed to sort the yVec vector and get the respective yVec indexes that will help. 
+
+sort(yVec, index.return = TRUE)
+
+#Please note that here: sort(yVec, index.return = TRUE) gives us:
+  # $x, which lists the yVec values sorted from least to greatest. 
+  # $ix, which lists the corresponding indexes for these yVec values that are sorted from least to greatest. 
+
+# hence, to get these indexes of yVec for the sorted y-Values, we please use: sort(yVec, index.return = TRUE)$ix
+# That is, we use $ix at the end of sort(yVec, index.return = TRUE)$ix) to refer to the fact that we just want te corresponding indexes for these yVec values. 
+#Pleae note that we can assign these corresponding indexes to a new vector, sortedYvec_indexes 
+
+sortedYvec_indexes = c(sort(yVec, index.return = TRUE)$ix)
+sortedYvec_indexes
+
+#the index vector, sortedYvec_indexes, provides the location of the y-values in yVec that help yVec go from least to greatest. 
+
+#here,  yVec[sortedYvec_indexes] should yield the result of the y-values sorted from least to greatest because we are going in order and finding these respective indexes and listing them out.  
+
+#Since Saniya is a very visual learner, please note: 
+head(yVec[sortedYvec_indexes]) #0  4 10 13 14 18 appear to be the same first 6 elements from:
+head(sort(yVec, index.return = TRUE)$x) # 0  4 10 13 14 18
+
+#Then, to sort the  numbers in the vector xVec in the order of the increasing values in yVec, we please apply the same indexes (in the order specified by sortedYvec_indexes) to the xVec.
+
+#We will be sorting the xVec using the indexes that when applied in that fashion to yVec will yield the least to greatest values (the yVec increasing values).  
+#That is: 
+xVecValuesForSortedyVec_7g = xVec[sortedYvec_indexes]  #We are applying the order of increasing (least to greatest) values for yVec, given by the values of the indexes in sortedYvec_indexes, to the xVec. 
+xVecValuesForSortedyVec_7g
+
+head(xVecValuesForSortedyVec_7g) #405 842 308 572 461   8 are the first 6 elements of the xVec when it is sorted in the order of increasing values in yVec. Here, the  ordering of the yVec values does NOT apply to the xVec and therefore we note that the xVecValuesForSortedyVec_7g vector will contain all sorts of xVec values, in the positional index order that worked for yVec. 
+
+#Answer: Please note that the xVec vector when sorted in the order of increasing values in yVec is given by:
+
+xVecValuesForSortedyVec_7g
+```
+
+
+7 h.)  Please pick out the elements in yVec at index positions 1, 4, 7, 10, 13,...
+
+Please note that here Saniya sees that we are starting with 1, and then are incrementing by 3 units. 
+
+The ,... signifies that we keep this pattern going until we can no longer do so; that is, we will stop when we have no more indexes we can use.  This stopping is found by noting that 250 is the last possible index for yVec (and also for xVec). 
+
+The maximum index here is 250 since n = 250 is the sample size.  Therefore, start index = 1, stop index = 250, increment by = 3 units.  
+
+Therefore, we please use this function: seq(1, 250, 3) to get all these index positions that we want. 
+```{r}
+# 7 h.)  Please note that we use Saniya's thoughts above to  pick out the elements in yVec at index positions 1, 4, 7, 10, 13,...
+
+indexPositions_yVec_7h = seq(1, 250, 3)
+indexPositions_yVec_7h  #these will be the index positions that we please apply on yVec here. 
+
+length(indexPositions_yVec_7h) #Hence, there are 84 indexes that we are interested in. 1, 4, 7, 10, 13, 16,  19, 22,...244, 247, 250.
+# To pick out these  elements in yVec at the index positions in the vector indexPositions_yVec_7h, we will use: 
+
+yVec_SpecificIndexes_7h = yVec[indexPositions_yVec_7h]
+yVec_SpecificIndexes_7h
+
+# ANSWER: Thus, please note that the elements in yVec at index positions 1, 4, 7, 10, 13,..., 247, 250,  is given by the vector: 
+yVec_SpecificIndexes_7h
+```
+
+
+
+8.) By using the function cumprod or otherwise, please calculate: 
+
+```{r}
+#1 + (2/3) +  (2*4)/(3*5) + (2*4*6)/(3*5*7) +... + (2*4 *6 *...* 38)/(3*5*7*...*39)
+
+#Here, the numerator has the terms that are even from 2 to 38.  Steps of 2.  Start = 2, Stop = 38. 
+#The denominator has the terms that are odd from 3 to 39.  
+
+numerator_8 = seq(2, 38, 2)
+numerator_8
+head(numerator_8) #2  4  6  8 10 12 are the first 6 terms here. 
+denominator_8 = seq(3, 39, 2)
+denominator_8
+head(denominator_8)  #3  5  7  9 11 13 are the first 6 terms here. 
+
+cumprod(numerator_8)  #this will give us the terms for 2, 2*4, 2*4*6, 2*4*6*8, 2*4*6*8*10, 2*4*6*8*10*12,...etc.
+
+cumprod(denominator_8)  #this will give us the terms for 3, 3*5, 3*5*7, 3*5*7*9, 3*5*7*9*11, 3*5*7*9*11*13,...etc.
+
+# Please note that:  (2/3) +  (2*4)/(3*5) + (2*4*6)/(3*5*7) +... + (2*4 *6 *...* 38)/(3*5*7*...*39) will be given by fraction_8
+
+fraction_8 = ((cumprod(numerator_8))/(cumprod(denominator_8)))
+fraction_8
+
+# Then, the result:  1 + (2/3) +  (2*4)/(3*5) + (2*4*6)/(3*5*7) +... + (2*4 *6 *...* 38)/(3*5*7*...*39) is given by:   1 + fraction_8
+
+Answer_Problem8 = 1 + fraction_8
+Answer_Problem8
+```
