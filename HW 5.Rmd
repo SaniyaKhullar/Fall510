@@ -1,0 +1,149 @@
+Title: Saniya Khullar's Homework 5
+Mathematical Statistical Computing
+========================================================
+
+Thank you so much!
+
+Best wishes, 
+
+Saniya Khullar
+
+
+1.)  Please figure out how to generically extract ALL numeric columns from any data frame so that the method you develop can be used on any data. 
+
+```{r}
+require(ggplot2)
+data(diamonds)  # please note that the diamonds data frame is a built-in data set in R. 
+str(diamonds)  #please note that this lets us look at the structure of the data and see the variables (columns) in the data set along with the type and some of the initial values in the data set.  There are 10 variables and 53,940 total observations. 
+
+# Then we please note that we have 6 numeric columns and 4 other columns.  
+# Price is often included as a numeric column, but it is NOT.  It is instead an integer. 
+
+#That is, 
+class(diamonds[[7]]) #integer
+class(diamonds[[1]]) #numeric
+#There is a difference here! 
+
+# We please note that except for the cut, color, clarity
+head(diamonds[[2]])  # please note that this will give us the 2nd column vector of the built-in data set diamonds. 
+
+length(colnames(diamonds)) #the output is 10, which means that here there are 10 variables in the dataset. 
+
+
+names(diamonds) # Please note that this gives the column names for the diamonds data table.
+
+class(diamonds$carat)  #please note that this will tell us the data type for a given column (variable here) in the data set
+# [1] "numeric"
+
+class(diamonds[[1]]) #numeric
+
+class(diamonds[[2]]) # ordered factor
+class(diamonds[[3]]) # ordered factor
+class(diamonds[[4]]) #ordered factor
+class(diamonds[[5]])  # numeric
+
+class(diamonds$price)# "integer"
+class(diamonds$depth) # "numeric"
+
+NumOfDiamondsCols = length(colnames(diamonds)) #the output is 10, which means that here there are 10 variables in the dataset.
+NumOfDiamondsCols
+
+colnamesvector <- vector() #please note that we are creating an empty vector here
+for (i in 1:NumOfDiamondsCols){
+  colnamesvector = c(colnamesvector, colnames(diamonds[i]))
+}
+
+colnamesvector
+
+classtypeVector <- vector()
+
+for (k in 1:NumOfDiamondsCols){
+classtype = t$colnamesvector[[k]] 
+classtypeVector = c(classtypeVector, classtype)
+}
+
+classtypeVector
+
+# [1] "carat"   "depth"   "table"   "price"   "x"       "y"       "z"       "carat"  
+# [9] "cut"     "color"   "clarity" "depth"   "table"   "price"   "x"       "y"      
+# [17] "z"
+
+
+new_numericalCols = diamonds[sapply(diamonds, is.double)]  #please note that the is.double function will return doubles, which are of the numeric type. 
+#Please note that here we are careful and are getting rid of the integer, which is price.  
+#When Saniya tried diamonds[sapply(diamonds, is.numeric)], it had 7 columns since it included the price column. 
+
+colnames(new_numericalCols)  #this yields the 6 variables that are of the numerical type. 
+# please note that the sapply function works on a list or vector of data and will traverse (go through in a manner like a loop) this set.  It will use and call the specified function, is.double, for each of these items in the diamonds data frame. Thus, it will only give back the columns from the diamonds data set that are numeric.  
+
+
+head(new_numericalCols)  #please note the first 6 rows of the numeric diamonds data set.  ALl of these columns in this new data set are the numeric columns from the diamonds data set.  
+
+numOfNumericColumns = length(new_numericalCols)
+numOfNumericColumns #there are 6 numeric columns. 
+AdjustednumOfNumericColumns = numOfNumericColumns - 1
+AdjustednumOfNumericColumns  #This is 5. It will be used soon. 
+
+```
+
+
+2.)  Please create a data frame that contains each pair of variable names in the first column in a single string separated by a -.  That is, for the variables x and y, you should form the string "x-y" (Hint: Please look at the help provided for the paste function) and their corresponding Pearson correlation coefficient in the 2nd column.  (Hint: Please note there is a function that calculates correlation coefficients;  please look carefully at what is returned and optimize how you extract the correlation coefficients). Please do NOT repeat any pairs. 
+
+```{r}
+# Please note that new_numericalCols includes the 6 numeric columns from the diamonds data set.  These are: 
+# carat, depth, table, x, y, and z. 
+numOfNumericColumns #this is 6
+AdjustednumOfNumericColumns # this is 5
+
+Combostring = ''
+for (n in 1:AdjustednumOfNumericColumns)
+{Combostring <- c(Combostring, c(paste(colnames(new_numericalCols[n]), colnames(new_numericalCols[(n+1):numOfNumericColumns]), sep = '-')))
+}
+
+CombostringNew <- c(Combostring[-1]) #please note that the 1st element of Combostring had the empty string that was created and we want to get rid of that 1st element so Saniya uses [-1] here. 
+CombostringNew 
+correlationData=0
+
+for (n in 1:numOfNumericColumns)
+{ correlationData <- c(correlationData, signif(cor(new_numericalCols[n], new_numericalCols[(n+1):numOfNumericColumns]), 5))} #please note: here, signif() is used to show that we want only a limited number of digits returned...up to 5 sigificant digits.  This is used when finding the correlations between variable 1 and variable 2, cor(variable 1, variable 2), when many digits after the decimal point are often returned. We want to please keep things simple by rounding. 
+correlationDataNew <- c(correlationData[-1])
+correlation_data <- data.frame(CombostringNew, correlationDataNew)
+colnames(correlation_data) <- c("Variables", "Corresponding Correlation (r)")
+
+correlation_data
+  
+#Please note that there are 15 rows of data
+
+#"carat" "depth" "table"  "x"     "y"     "z" 
+# 1        2        3      4       5       6
+
+# Please note these 15 pairs for this diamonds data set in general:  
+# for the index 1, please note:  1, 2  ;  1, 3 ;  1, 4 ;  1, 5 ;  1, 6 
+# for the index 2, please note:           2, 3 ;  2, 4 ;  2, 5 ;  2, 6 
+# for the index 3, please note:                   3, 4 ;  3, 5 ;  3, 6 
+# for the index 4, please note:                           4, 5 ;  4, 6 
+# for the index 5, please note:                                   5, 6  
+
+```
+
+
+3.)  Please create and label a scatter plot for every pair of numeric variables.  Add a title to the plot that contains the calculated Pearson correlation coefficient of variables contained in the plot.  (Hint:  Please note you should figure out how to extract all numeric columns from a data frame so that your method can be used on any data frame.)
+```{r}
+head(new_numericalCols) #please note that these are the first 6 rows of the numeric columns from the diamonds data set.  Please note that integers are NOT numeric and hence the price variable is NOT included here. 
+numOfNumericColumns #this is 6.  Here, using this variable allows us to be flexible with other data sets in the future because we are NOT hard-coding a specific value 6, but are writing things in terms of a variable. 
+AdjustednumOfNumericColumns # this is 5.  We are NOT hardcoding anything here.
+
+mainNumericalplots<- par(mfrow=c(3,5))  # Please note that this will split up the output of the grids into 5 by 3.  That is, there will be 5 rows and 3 columns --> 15 cells.  Each of these cells has 1 of the 15 combinations plotted; the title has the correlation between the 2 variables that have been plotted. 
+
+num = 0  #we initialize this index variable
+for (i in 1:AdjustednumOfNumericColumns)
+{for (j in (i+1):numOfNumericColumns) { 
+  num = num + 1
+  plot(new_numericalCols[c(i, j)], main = c(correlation_data[num,2]))}} #please note that the plot function allows us to simply see a scatterplot. It is simple and not that elaborate, and here is necessary.  
+par(mainNumericalplots)
+mainNumericalplots
+
+
+
+
+```
