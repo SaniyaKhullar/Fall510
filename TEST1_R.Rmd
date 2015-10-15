@@ -1,0 +1,249 @@
+Exam 1
+Mathematical and Statistical Computing
+By:  Saniya Khullar
+Thank you so much!! :)
+Professor Pilcher
+========================================================
+Instructions:  Please complete te following work using R Studio and submit the rmd (R Markdown) file to Github.  
+
+Please Name the file:  TEST1_R. 
+Please make sure to include comments
+
+Please use the diamonds data (Available in R-Studio as a data file).
+
+1.) Please add a logical column to diamonds based on the ratio of 1's and 0's in the mtcars$vs variable.  The variable in mtcars is numeric meaning that you will need to create a LOGICAL equivalent, extend it to the same length as diamonds and add it to the diamonds data frame. 
+```{r}
+library(ggplot2)
+
+data(diamonds)
+data(mtcars)
+
+str(mtcars)
+
+mtcars$vs
+# 0 0 1 1 0 1 0 1 1 1 1 0 0 0 0 0 0 1 1 1 1 0 0 0 0 1 0 1 0 0 0 1
+
+length(mtcars$vs)  #32 elements here
+
+sum(mtcars$vs)  #14 is the sum, meaning that there are 14 1 values here and the other 18 are 0 values. 
+
+length(diamonds)
+
+str(diamonds)
+
+head(diamonds$carat)
+length(diamonds$carat)  #53940.  Thus, there are 53,940 rows in the diamonds data set. 
+53940/16  #this is [1] 3371.25
+
+3371.2 * 7  #23598
+#Please note that (14/32) is 0.4375
+(14/32)*53940  #23,599.  Hence out of the 53,940 rows, please note that approximately 23,599 of those rows will be 1s and the remainder of them will be 0s. 
+(18/32)*53940  #30,341.  Please note that therefore the remainder 30,341 rows will have the value 0. 
+
+#Please note that: 30341/53940 is approximately 0.5624954, while 18/32 is 0.5625.  These values are quite close together. 
+
+
+
+rep(0, 3) #please note that this is the repeat function
+trial = c(rep(0, 3), rep(2, 4))
+trial 
+
+DiamondsMtCarsVsColumn <- c(rep(1, 23599), rep(0, 30341))
+head(DiamondsMtCarsVsColumn)
+length(DiamondsMtCarsVsColumn) #53940, which is what we wanted
+
+is.logical(DiamondsMtCarsVsColumn)
+is.logical(as.logical(DiamondsMtCarsVsColumn)) #TRUE.  Thus, it is logical. 
+
+
+#Here, please note that the DiamondsMtCarsVsColumn contained 0 and 1 values.  When converting this to a logical variable, the 0 will become FALSE and the 1 will become TRUE. 
+#Hence, is.logical(DiamondsMtCarsVsColumn) does this conversion. 
+
+str(DiamondsMtCarsVsColumn)  #this is numeric....values here are 0 and 1. 
+
+LogicalDiamondsMtCarsVsColumn = as.logical(DiamondsMtCarsVsColumn)  #Here, please note that we stored this conversion into the vector LogicalDiamondsMtCarsVsColumn
+is.logical(LogicalDiamondsMtCarsVsColumn)      #TRUE is returned since it is indeed a logical value and it passes the test: is.logical ?
+
+
+str(LogicalDiamondsMtCarsVsColumn)  #this is returning "logical" since we created this into a logical column, with the values either TRUE or FALSE.  0 values mapped to (and were converted to) FALSE and 1 values mapped to TRUE. 
+
+head(diamonds) #the first 6 rows of output from the original diamonds data set. 
+
+#carat       cut color clarity depth table price    x    y    z
+#1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+#2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+#3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+#4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+#5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+#6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48
+
+
+NewDiamondsDataFrame = cbind(diamonds, LogicalDiamondsMtCarsVsColumn) #we are binding by the columns.  That is, we are adding on this logical column of Trues and Falses as a new column to the original diamonds data frame.
+head(NewDiamondsDataFrame)
+
+
+#carat       cut color clarity depth table price    x    y    z LogicalDiamondsMtCarsVsColumn
+#1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43                          TRUE
+#2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31                          TRUE
+#3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31                          TRUE
+#4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63                          TRUE
+#5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75                          TRUE
+#6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48                          TRUE
+
+head(NewDiamondsDataFrame[1:5])
+head(NewDiamondsDataFrame)
+
+#please note that logical returns true and false values.  0 corresponds to false and 1 corresponds to true
+str(NewDiamondsDataFrame) #to please see the structure of this new data frame.  We just added our 11th variable. 
+
+#'data.frame':  53940 obs. of  11 variables:
+#  $ carat                        : num  0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+#$ cut                          : Ord.factor w/ 5 levels "Fair"<"Good"<..: 5 4 2 4 2 3 3 3 1 3 ...
+#$ color                        : Ord.factor w/ 7 levels "D"<"E"<"F"<"G"<..: 2 2 2 6 7 7 6 5 2 5 ...
+#$ clarity                      : Ord.factor w/ 8 levels "I1"<"SI2"<"SI1"<..: 2 3 5 4 2 6 7 3 4 5 ...
+#$ depth                        : num  61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+#$ table                        : num  55 61 65 58 58 57 57 55 61 61 ...
+#$ price                        : int  326 326 327 334 335 336 336 337 337 338 ...
+#$ x                            : num  3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+#$ y                            : num  3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+#$ z                            : num  2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+#$ LogicalDiamondsMtCarsVsColumn: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
+
+#Here, the LogicalDiamondsMtCarsVsColumn is approximately the logical equivalent of the ratio of 0's to 1's for the mtcars data set variable vs.  The 0's in LogicalDiamondsMtCarsVsColumn are reflected by FALSE and the 1's are reflected by TRUE.  
+
+```
+
+2.)  Please figure out how to generically extract all factor and logical columns from ANY data frame so the method you develop can be used on any data. 
+
+Here, please note that the names of the variables will be in terms of the diamonds data set, but in general the same process of data analysis can be applied on ANY data set. 
+
+```{r}
+
+str(NewDiamondsDataFrame) #to please see the structure of this new data frame.  We just added our 11th variable. 
+
+#'data.frame':  53940 obs. of  11 variables:
+#  $ carat                        : num  0.23 0.21 0.23 0.29 0.31 0.24 0.24 0.26 0.22 0.23 ...
+#$ cut                          : Ord.factor w/ 5 levels "Fair"<"Good"<..: 5 4 2 4 2 3 3 3 1 3 ...
+#$ color                        : Ord.factor w/ 7 levels "D"<"E"<"F"<"G"<..: 2 2 2 6 7 7 6 5 2 5 ...
+#$ clarity                      : Ord.factor w/ 8 levels "I1"<"SI2"<"SI1"<..: 2 3 5 4 2 6 7 3 4 5 ...
+#$ depth                        : num  61.5 59.8 56.9 62.4 63.3 62.8 62.3 61.9 65.1 59.4 ...
+#$ table                        : num  55 61 65 58 58 57 57 55 61 61 ...
+#$ price                        : int  326 326 327 334 335 336 336 337 337 338 ...
+#$ x                            : num  3.95 3.89 4.05 4.2 4.34 3.94 3.95 4.07 3.87 4 ...
+#$ y                            : num  3.98 3.84 4.07 4.23 4.35 3.96 3.98 4.11 3.78 4.05 ...
+#$ z                            : num  2.43 2.31 2.31 2.63 2.75 2.48 2.47 2.53 2.49 2.39 ...
+#$ LogicalDiamondsMtCarsVsColumn: logi  TRUE TRUE TRUE TRUE TRUE TRUE ...
+
+#here, based on the results from the above structure of the new diamonds data frame, please note that we want the cut, color, clarity, and LogicalDiamondsMtCarsVsColumn variables to be selected. 
+# These 4 columns are either factor columns or they are logical columns. 
+
+
+is.logical(diamonds$cut)
+
+colnames(diamonds)
+
+new_logicalCols = NewDiamondsDataFrame[sapply(NewDiamondsDataFrame, is.logical)] 
+head(new_logicalCols)
+new_factorCols = NewDiamondsDataFrame[sapply(NewDiamondsDataFrame, is.factor)] 
+head(new_factorCols)
+
+#Please note that we combine BOTH results so that we have all columns that are either logical columns or factor columns. 
+
+LogicalAndFactorColumnsNewDiamondsDF = cbind(new_factorCols, new_logicalCols) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
+head(LogicalAndFactorColumnsNewDiamondsDF)
+
+#cut color clarity LogicalDiamondsMtCarsVsColumn
+#1     Ideal     E     SI2                          TRUE
+#2   Premium     E     SI1                          TRUE
+#3      Good     E     VS1                          TRUE
+#4   Premium     I     VS2                          TRUE
+#5      Good     J     SI2                          TRUE
+#6 Very Good     J    VVS2                          TRUE
+
+
+#In general, for any data set (aside from the diamonds data set), please note that this is the process that we would use to find and extract the logical and the factor columns from that respective data set. 
+
+########
+
+
+
+```
+
+3.) Please plot a gray bar graph for every factor and logical variable. 
+```{r fig.width=7, fig.height=10}
+# Here, please note that for the new diamonds data set, this is: 
+# factor variables: cut, color, and clarity. 
+
+#logical variables: LogicalDiamondsMtCarsVsColumn
+
+#Please note that we have the logical variables stored in: new_logicalCols
+#Please note that we have the factor variables stored in: new_factorCols
+
+
+
+#colnamesvector <- vector() #please note that we are creating an empty vector here
+
+colnamesLogicalFactors <- vector()  #please note that we are creating an empty vector here
+
+NumOfLogicalAndFactorColumns = length(LogicalAndFactorColumnsNewDiamondsDF)
+
+for (colnamesIndex in 1:NumOfLogicalAndFactorColumns){
+  colnamesLogicalFactors = c(colnamesLogicalFactors, colnames(LogicalAndFactorColumnsNewDiamondsDF[colnamesIndex]))
+}
+colnamesLogicalFactors
+colnamesLogicalFactors[1] #cut, the first element here...
+
+
+NumOfLogicalColumns = length(new_logicalCols)
+NumOfFactorColumns = length(new_factorCols)
+
+NumOfLogicalColumns #1 here
+NumOfFactorColumns #3 here
+
+#Please note that below, Saniya has 3 different for-loops based on what the user wants.  The first for-loop will plot all of the factor variables.  The second for-loop will plot all of the logical variables.  The 3rd for-loop is a combination of the first 2 for-loops and will plot BOTH the factor as well as the logical variables.  That is, it will plot all of these variables. 
+
+
+#If we just want to plot all of the factor variables, we may please run this following for loop below: 
+
+FactorColIndex = 1 #Please note that this initializes the variable so that we can re-run the same code over and over again and get the same sets of results each time. 
+for (FactorColIndex in 1:NumOfFactorColumns){
+  plot(LogicalAndFactorColumnsNewDiamondsDF[FactorColIndex], col = "gray", main = c("Factor Variable: ", colnamesLogicalFactors[FactorColIndex], "  (Plot: ", FactorColIndex, " )"),  ylab = "Frequency (Counts)", xlab = "Categories") #since it is qualitative (like a factor or a logical column) rather than numeric, the plot feature will yield a bargraph automatically.
+}
+
+#If we just want to plot all of the logical (True/False Boolean values) variables, we may please run this following for loop below: 
+
+LogicalColIndex = 1  ##Please note that this initializes the variable so that we can re-run the same code over and over again and get the same sets of results each time. 
+for (LogicalColIndex in 1:NumOfLogicalColumns){
+  index = LogicalColIndex + NumOfFactorColumns
+  factorCol = as.factor(LogicalAndFactorColumnsNewDiamondsDF[,index])
+  plot(factor(factorCol), col = "gray", main = c("Logical Variable: ", colnamesLogicalFactors[index], " (Plot: ", index, " )") , ylab = "Frequency (Counts)", xlab = "Categories") #since it is qualitative (like a factor or a logical column) rather than numeric, the plot feature will yield a bargraph automatically.
+}
+
+
+
+#To Plot all of the Variables (Factored and Logical) together, please use:
+
+colIndex = 1 #Please note that this initializes the variable so that we can re-run the same code over and over again and get the same sets of results each time. 
+for (colIndex in 1:NumOfLogicalAndFactorColumns){
+  factoredColumn = as.factor(LogicalAndFactorColumnsNewDiamondsDF[,colIndex])
+  plot(factoredColumn, col = "gray", main = c("(Plot", colIndex, " of", NumOfLogicalAndFactorColumns,") :", colnamesLogicalFactors[colIndex] ),  ylab = "Frequency (Counts)", xlab = "Categories") #since it is qualitative (like a factor or a logical column) rather than numeric, the plot feature will yield a bargraph automatically.
+}
+
+
+
+
+```
+
+
+4.)  Please create a list of frequency tables that contains one table for each categorical and logical variable in the data frame.
+
+```{r}
+for (columnsIndex in 1:NumOfLogicalAndFactorColumns){ #here, we are going to have as many printouts as there are logical and factor columns.  That is, there is exactly 1 printout for each factor variable and 1 printout for each logical variable.  
+  print("       ")
+  print("********************************************************")
+  print("Below, please note the Frequency Table below for this qualitative variable:")
+  print(colnamesLogicalFactors[columnsIndex])
+  print(table(LogicalAndFactorColumnsNewDiamondsDF[,columnsIndex]))  #please note that the table function allows us to plot the frequency tables. 
+  print("********************************************************") #these stars just help us distinguish between the different variables as their respective outputs are printed out.  These are just dividers
+  }
+```
