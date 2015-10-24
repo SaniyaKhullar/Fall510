@@ -1,0 +1,263 @@
+Saniya Khullar
+Homework for Mathematical and Statistical Computing Class. 
+Thank you so much.
+Please note that Professor Pilcher gave me this extension for the homework assignment. 
+
+Thanking you!
+========================================================
+
+
+
+```{r}
+explore <- function(Input_Frame, binsizesVector, CorrThreshold)
+{
+  # please note that the diamonds data frame is a built-in data set in R. 
+  #var_numeric <- dataframe[which(lapply(dataframe, is.numeric) == TRUE)]
+
+  #var_numeric = Input_Frame[sapply(Input_Frame, is.numeric)]
+  #var_factor = Input_Frame[sapply(Input_Frame, is.factor)]
+  #var_logical = Input_Frame[sapply(Input_Frame, is.logical)]
+  InputFrame = data.frame(Input_Frame)
+  var_numeric <- InputFrame[which(lapply(InputFrame, is.numeric) == TRUE)]
+  var_factor <- InputFrame[which(lapply(InputFrame, is.factor) == TRUE)]
+  var_logical <- InputFrame[which(lapply(InputFrame, is.logical) == TRUE)]
+
+#lapply has the dataframe and if it is numeric or not. 
+#Which just takes those columns that meet the criteria of being numeric. It gives the indices of the true values. That is, the values in diamonds where is.numeric == TRUE.
+#We are creating a logical value since that is what we have done here. 
+#For everyone of the columns in there, please return the column numbers. 
+#We index diamonds with those column numbers. 
+#We have a data frame that only has numerical columns. 
+# int is a type of numeric..?
+
+  NumNumericColumns <- length(var_numeric)  #please note that this tells us the # of numeric columns in the original data frame. 
+
+  #class(var_numeric) #[1] "data.frame"
+#YAY!  Please note that this data frame, var_numeric (that has all the numeric columns of the original data frame) will help us use the ggplot plotting function since it is in the form of a data frame! YAY! :)
+ # head(var_numeric) #please view just the first 6 rows. 
+
+
+ #HERE, WE PLEASE TRY TO GET THE RED LINE VERTICALLY AT THE MEAN. 
+#idea so far for plotting histograms...need to find means though...
+
+  NumMeanVector <- vector()
+#vector of the means.
+  COLIndex = 1  # Please initialize this
+  for (COLIndex in 1:NumNumericColumns)
+    {
+    meanValue = mean(var_numeric[[COLIndex]])
+    NumMeanVector <- c(NumMeanVector, meanValue)
+    }
+
+  NumMeanVector #[1]    0.7979397   61.7494049   57.4571839 3932.7997219    5.7311572    5.7345260  [7]    3.5387338
+
+#binsizesVector <- c(0.2, 0.3)
+  NumOfDiffBinSizes = length(binsizesVector)
+  columnIndex = 1
+  for (columnIndex in 1:NumNumericColumns)
+    {
+   # binIndex = 1
+    for (binIndex in 1:NumOfDiffBinSizes)
+      {
+        binwidthVar <- (max(var_numeric[columnIndex]) - min(var_numeric[columnIndex]))/(binsizesVector[binIndex])
+        hist_var_NEW <- ggplot(var_numeric[columnIndex], aes(x=var_numeric[[columnIndex]]), environment = environment()) #please note that here, aes is aesthetic. 
+      hist_var_NEW <- hist_var_NEW + geom_histogram(fill = I("blue"), binwidth = binwidthVar)   + labs(x = colnames(var_numeric[columnIndex]), title= "Histogram") + geom_vline(xintercept = NumMeanVector[columnIndex], colour='red') 
+  print(c("Please note that the mean of the variable", colnames(var_numeric[columnIndex]), "is: ",  NumMeanVector[columnIndex]))
+  print(hist_var_NEW) 
+  print(hist_var_NEW + aes(y =..density..) + labs(y = "density"))
+       }
+    }
+#view
+
+LogicalAndFactorColumnsDF = cbind(var_factor, var_logical) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
+
+
+NumOfLogAndFacColumns = length(LogicalAndFactorColumnsDF)
+
+for (colIndex in 1:NumOfLogAndFacColumns){
+#ggplot returns structure with data and layers
+  cut_bargraph_LOGFAC<- ggplot(LogicalAndFactorColumnsDF, aes(x=LogicalAndFactorColumnsDF[[colIndex]]), environment = environment()) #please note that here, aes is aesthetic. 
+  cut_bargraph_LOGFAC <- cut_bargraph_LOGFAC + geom_bar(fill = "gray", colour = "red") + labs(x = names(LogicalAndFactorColumnsDF)[[colIndex]]) #please note that when we add geom_bar, we are adding an additional layer to the data we are looking at.  That is, we are mentioning that we are seeing the counts of the cut data. 
+  print(cut_bargraph_LOGFAC)  # even works with a factor variable too! :)
+}
+
+
+corr_num <- cor(var_numeric, method="pearson")  #we can do this for all of the numeric variables and then see the corresponding structure.
+corr_num #please note that this gives us a correlation matrix, finding the correlation between 2 variables, etc.
+
+#please note that the main diagonal of this correlation matrix is our correlation of the variable with itself, which ought to be 1.  
+
+#Realize we only need to deal with the upper right triangle of
+#the correlation matrix
+
+#Set up a threshold and null vectors before entering loop
+#CorrThreshold <- 0.25  
+R_square <- NULL
+Rsq_names <- NULL
+corr_list <- NULL
+corr_names <- NULL
+pairs <- rep("names", 7)
+values <- rep(0.0, 7)
+
+#Get the length of the one dimension of the square matrix
+len <- length(corr_num[1,])
+len
+
+#Only loop through the upper right triangle
+for (i in (1:(len-1))) {
+  for (j in ((i+1):len)) {
+    #Form the name pair and add to the named pair vector
+    pair_name <- paste(names(corr_num[,1])[[i]],names(corr_num[1,])[[j]],sep="-")
+    Rsq_names <- c(Rsq_names, pair_name)
+    
+    #Add the r_square value to the value vector
+    R_square <- c(R_square, corr_num[i,j]^2)  
+  }
+}
+
+#Realize we only need to deal with the upper right triangle of
+#the correlation matrix
+
+#Set up a threshold and null vectors before entering loop
+
+
+#Get the length of the one dimension of the square matrix
+len <- length(corr_num[1,])
+
+#Only loop through the upper right triangle
+for (i in (1:(len-1))) {
+  for (j in ((i+1):len)) {
+    #Form the name pair and add to the named pair vector
+    pair_name <- paste(names(corr_num[,1])[[i]],names(corr_num[1,])[[j]],sep="-")
+ 
+    #if the threshold is exceeded, add the name and value to the
+    #respective correlation vectors
+    #Please now restrict only those correlations that are greater than a certain threshold. 
+    if (abs(corr_num[i,j]) > CorrThreshold) { #abs is for absolute value
+      corr_names <- c(corr_names, pair_name)
+      corr_list <- c(corr_list, corr_num[i,j]) 
+    }
+  }
+  
+}
+
+
+#in this situation, please note that there are 7 total columns, yielded by len. 
+#Thus, we have: 
+# i = 1  --> j = 2: 7
+# i = 2 --> j = 3: 7
+# i = 3 --> j = 4: 7
+# i = 4 --> j = 5: 7 
+# i = 5 --> j = 6:7
+# i = 6 --> j = 7
+
+#This is helpful because it allows us to avoid repetition and only take the correlation values that are from the unique pairs and that are meaningful, and here those tend to be in the upper right parts of the matrix. 
+
+
+#create the dataframes and label the columns
+
+corr_df <- data.frame(cbind(corr_names, corr_list))
+names(corr_df)[1] <- "Pair"
+names(corr_df)[2] <- "Correlation Value"
+
+
+
+
+#in this situation, please note that there are 7 total columns, yielded by len. 
+#Thus, we have: 
+# i = 1  --> j = 2: 7
+# i = 2 --> j = 3: 7
+# i = 3 --> j = 4: 7
+# i = 4 --> j = 5: 7 
+# i = 5 --> j = 6:7
+# i = 6 --> j = 7
+
+#This is helpful because it allows us to avoid repetition and only take the correlation values that are from the unique pairs and that are meaningful, and here those tend to be in the upper right parts of the matrix. 
+#View(outlist$vs)
+#R_square <- NULL
+#Rsq_names <- NULL
+
+
+#create the dataframes and label the columns
+Rsq_dataframe <- data.frame(cbind(Rsq_names, R_square))  #binding the columns. 
+names(Rsq_dataframe)[1] <- "Pair"  #1st column name
+names(Rsq_dataframe)[2] <- "R-Square Value" #2nd column name
+
+#Output:  (Please see below)
+#Rsq_dataframe   #Please note that this will give us the R-Squared value for ever pair of numerical variables. 
+
+#print(summary(var_numeric))
+
+#Please note that we will create a summary statistics table for each numerical variable. 
+ 
+
+#***summary(var_numeric)
+
+#DTSumStats <- data.table(summary(var_numeric))
+#DTSumStats
+#DTSumStats = table(summary(var_numeric))
+#DTSumStats
+
+
+LogiAndFacColsDF = cbind(var_logical, var_factor) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
+#***head(LogiAndFacColsDF)
+
+
+
+colnamesLogiFactors <- vector()  #please note that we are creating an empty vector here
+
+NumOfLogiAndFacCols = length(LogiAndFacColsDF)
+
+for (colnamesIndex in 1:NumOfLogiAndFacCols){
+  colnamesLogiFactors = c(colnamesLogiFactors, colnames(LogiAndFacColsDF[colnamesIndex]))
+}
+colnamesLogiFactors
+colnamesLogiFactors[1] #cut, the first element here...
+
+
+#NumOfLogicalColumns = length(new_logicalCols)
+#NumOfFactorColumns = length(new_factorCols)
+
+#NumOfLogicalColumns #1 here
+#NumOfFactorColumns #3 here
+#columnsIndex = 1
+FreqList <- NULL
+print("Please note below is an expanded set of Frequency tables for the qualitative variables.  After this, please note that there will be a condensed Frequency Table of the counts for all the qualitative variables in the data frame. Thank you!")
+for (ColumnsIndex in 1:NumOfLogiAndFacCols){ #here, we are going to have as many printouts as there are logical and factor columns.  That is, there is exactly 1 printout for each factor variable and 1 printout for each logical variable.  
+  print("       ")
+  print("**************************************************************************")
+  print("Below, please note the Frequency Table below for this qualitative variable:")
+  print(colnamesLogiFactors[ColumnsIndex])
+  FrequencyTable = table(LogiAndFacColsDF[,ColumnsIndex])
+  FreqList <- c(FreqList, FrequencyTable)
+  print(FreqList)
+  #print(FrequencyTable)
+  #print(table(LogiAndFacColsDF[,ColumnsIndex]))  #please note that the table function allows us to plot the frequency tables. 
+  print("**************************************************************************") #these stars just help us distinguish between the different variables as their respective outputs are printed out.  These are just dividers
+  print("       ")
+}
+
+#****print(Rsq_dataframe)
+#****print(corr_df)
+
+#tmp <- do.call(var_numeric, list(summary(var_numeric)))
+#tmp
+#return(Return_List) #push it out of the function environmnet to the global environment.  return them out of the function and then store them in our global variable, outlist. In global environment
+
+KeyList <- list(FreqList, summary(var_numeric), Rsq_dataframe,corr_df)
+return(KeyList)
+
+print(KeyList)
+
+}
+#CONVERT VAR TO STRING AND THEN CONCATENATE IT PLEASE TO GET THE TITLE. 
+#table(LogicalAndFactorColumnsNewDiamondsDF[,columnsIndex])
+require(ggplot2)
+data(diamonds)
+data(mtcars)
+explore(diamonds, c(20, 50, 100), 0.25)
+#explore(diamonds, c(20, 50, 100), 0.5)
+explore(mtcars, c(20, 50, 100), 0.25)
+
+```
+
