@@ -2,6 +2,8 @@ Title: Saniya Khullar's Homework 5
 Mathematical Statistical Computing
 ========================================================
 
+SW: did you test your code? I had to modify the below extensively (including setting a chunk to `eval = F`) to get it to knit together.
+
 Thank you so much!
 
 Best wishes, 
@@ -57,10 +59,12 @@ colnamesvector
 
 classtypeVector <- vector()
 
-for (k in 1:NumOfDiamondsCols){
-classtype = t$colnamesvector[[k]] 
-classtypeVector = c(classtypeVector, classtype)
-}
+#for (k in 1:NumOfDiamondsCols){
+  # SW: t() is the transpose function, and you haven't defined another object
+  # to overwrite it, so this throws an error.
+#classtype = t$colnamesvector[[k]] 
+#classtypeVector = c(classtypeVector, classtype)
+#}
 
 classtypeVector
 
@@ -103,6 +107,11 @@ for (n in 1:AdjustednumOfNumericColumns)
 CombostringNew <- c(Combostring[-1]) #please note that the 1st element of Combostring had the empty string that was created and we want to get rid of that 1st element so Saniya uses [-1] here. 
 CombostringNew 
 correlationData=0
+```
+
+```{r, eval = F}
+# SW: lost points: this code doesn't work, and I'm having a hard time following
+# what you're trying to do.
 
 for (n in 1:numOfNumericColumns)
 { correlationData <- c(correlationData, signif(cor(new_numericalCols[n], new_numericalCols[(n+1):numOfNumericColumns]), 5))} #please note: here, signif() is used to show that we want only a limited number of digits returned...up to 5 sigificant digits.  This is used when finding the correlations between variable 1 and variable 2, cor(variable 1, variable 2), when many digits after the decimal point are often returned. We want to please keep things simple by rounding. 
@@ -139,11 +148,43 @@ num = 0  #we initialize this index variable
 for (i in 1:AdjustednumOfNumericColumns)
 {for (j in (i+1):numOfNumericColumns) { 
   num = num + 1
-  plot(new_numericalCols[c(i, j)], main = c(correlation_data[num,2]))}} #please note that the plot function allows us to simply see a scatterplot. It is simple and not that elaborate, and here is necessary.  
+  # commented out the title because your correlations function doesn't work
+  #plot(new_numericalCols[c(i, j)], main = c(correlation_data[num,2]))}} 
+  plot(new_numericalCols[c(i, j)])}}
+  #please note that the plot function allows us to simply see a scatterplot. It is simple and not that elaborate, and here is necessary.  
 par(mainNumericalplots)
 mainNumericalplots
+```
 
+```{r, eval = F}
+# SW: there should have been 21 plots, one for each pair of variables. here's
+# some code to create the correlations and all the plots.
+get_numeric <- function(dat) {
+  nc <- lapply(dat, class) %in% c("numeric","integer")
+  return(dat[,nc])
+}
 
+corrfn <- function(dat) {
+  comb <- combn(colnames(dat), 2)
+  out <- apply(comb, MARGIN = 2, 
+               FUN = function(x) {
+                 return(c(paste(x[1], x[2], sep="-"), 
+                          cor(dat[x[1]], dat[x[2]])))
+               })
+  return(data.frame(vars = out[1,], corr = out[2,]))
+}
 
+plotnum <- function(dat) {
+  dat_nc <- get_numeric(dat)
+  lbl <- corrfn(dat_nc)
+  comb <- combn(colnames(dat_nc), 2)
+  apply(comb, MARGIN = 2,
+        FUN = function(x) {
+          plot(dat_nc[,x[1]], dat_nc[,x[2]], xlab = x[1], ylab = x[2],
+               main = paste0(x[1],"-",x[2],": ",
+                             lbl[lbl[,1] == paste(x[1],x[2],sep="-"),2]))
+        })
+}
 
+plotnum(diamonds)
 ```
