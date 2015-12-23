@@ -81,7 +81,9 @@ CosineFunction = (exp(xValues))*(cos(xValues))
 CosineFunction  #Please note that this should return the results for (e^(x))(cox(x)) for all of the x values in this vector.  (values of x go from 3 to 6 with 0.1 increments)
 #Here, exp(x) is e^x. 
 
-
+# SW: here's a more concise implementation
+x <- seq(3, 6, 0.1)
+exp(x) * cos(x)
 ```
 
 ```{r}
@@ -636,7 +638,11 @@ yVecValues_GreaterThan600_Prob7a = sorted_yVec[142:250]
 yVecValues_GreaterThan600_Prob7a
 head(yVecValues_GreaterThan600_Prob7a) #604 609 611 613 615 615  are the 1st 6 results.  These numbers are all greater than 600. 
 
+# SW: much simpler to write
+yVec[yVec > 600]
+```
 
+```{r}
 # 7 b.)  What are the index positions in yVec of the values which are > 600? 
 
 sort(yVec, index.return = TRUE)
@@ -671,6 +677,8 @@ yValuesGreaterThan600 #please note that this has ALL the y-values that are GREAT
 
 #Therefore, the index positions of the y-Values that are greater than 600 is given by: 
 yindexes_valuesGreaterThan600
+# SW: much simpler to write
+which(yVec > 600)
 ```
 
 7 c.) Please find the values in xVec that correspond to the values in yVec which are > 600.  That is, for those same index values for yVec that correpsond to y-values greater than 600, what are those x-Values for those SAME given indexes?
@@ -927,4 +935,7 @@ fraction_8
 
 Answer_Problem8 = 1 + fraction_8
 Answer_Problem8
+# SW: lost points: the final answer should be a scalar, not a vector, and I am 
+# not following your work at all
+sum(c(1,cumprod(seq(2, 38, 2) / seq(3, 39, 2))))
 ```
