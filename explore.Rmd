@@ -6,7 +6,7 @@ Please note that Professor Pilcher gave me this extension for the homework assig
 Thanking you!
 ========================================================
 
-
+SW: did you test your code? it doesn't work as written. i had to modify it extensively to get it to run at all, appears that your handling of logical and factor variables is incorrect. it appears you are trying to use `cbind` to combine the various variable types, but that will fail if the objects to be bound do not have the same number of rows. separately, good job accounting for the absolute value of the correlation coefficient.
 
 ```{r}
 explore <- function(Input_Frame, binsizesVector, CorrThreshold)
@@ -69,17 +69,17 @@ explore <- function(Input_Frame, binsizesVector, CorrThreshold)
     }
 #view
 
-LogicalAndFactorColumnsDF = cbind(var_factor, var_logical) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
+#LogicalAndFactorColumnsDF = cbind(var_factor, var_logical) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
 
 
-NumOfLogAndFacColumns = length(LogicalAndFactorColumnsDF)
+#NumOfLogAndFacColumns = length(LogicalAndFactorColumnsDF)
 
-for (colIndex in 1:NumOfLogAndFacColumns){
+#for (colIndex in 1:NumOfLogAndFacColumns){
 #ggplot returns structure with data and layers
-  cut_bargraph_LOGFAC<- ggplot(LogicalAndFactorColumnsDF, aes(x=LogicalAndFactorColumnsDF[[colIndex]]), environment = environment()) #please note that here, aes is aesthetic. 
-  cut_bargraph_LOGFAC <- cut_bargraph_LOGFAC + geom_bar(fill = "gray", colour = "red") + labs(x = names(LogicalAndFactorColumnsDF)[[colIndex]]) #please note that when we add geom_bar, we are adding an additional layer to the data we are looking at.  That is, we are mentioning that we are seeing the counts of the cut data. 
-  print(cut_bargraph_LOGFAC)  # even works with a factor variable too! :)
-}
+#  cut_bargraph_LOGFAC<- ggplot(LogicalAndFactorColumnsDF, aes(x=LogicalAndFactorColumnsDF[[colIndex]]), environment = environment()) #please note that here, aes is aesthetic. 
+#  cut_bargraph_LOGFAC <- cut_bargraph_LOGFAC + geom_bar(fill = "gray", colour = "red") + labs(x = names(LogicalAndFactorColumnsDF)[[colIndex]]) #please note that when we add geom_bar, we are adding an additional layer to the data we are looking at.  That is, we are mentioning that we are seeing the counts of the cut data. 
+#  print(cut_bargraph_LOGFAC)  # even works with a factor variable too! :)
+#}
 
 
 corr_num <- cor(var_numeric, method="pearson")  #we can do this for all of the numeric variables and then see the corresponding structure.
@@ -199,20 +199,20 @@ names(Rsq_dataframe)[2] <- "R-Square Value" #2nd column name
 #DTSumStats
 
 
-LogiAndFacColsDF = cbind(var_logical, var_factor) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
+#LogiAndFacColsDF = cbind(var_logical, var_factor) #since we have been extracting various columns from the new diamonds data frame, we can just combine the factor columns results with the logical columns results by binding (Attaching) the columns together using cbind...that is column bind. 
 #***head(LogiAndFacColsDF)
 
 
 
 colnamesLogiFactors <- vector()  #please note that we are creating an empty vector here
 
-NumOfLogiAndFacCols = length(LogiAndFacColsDF)
+#NumOfLogiAndFacCols = length(LogiAndFacColsDF)
 
-for (colnamesIndex in 1:NumOfLogiAndFacCols){
-  colnamesLogiFactors = c(colnamesLogiFactors, colnames(LogiAndFacColsDF[colnamesIndex]))
-}
-colnamesLogiFactors
-colnamesLogiFactors[1] #cut, the first element here...
+#for (colnamesIndex in 1:NumOfLogiAndFacCols){
+#  colnamesLogiFactors = c(colnamesLogiFactors, #colnames(LogiAndFacColsDF[colnamesIndex]))
+#}
+#colnamesLogiFactors
+#colnamesLogiFactors[1] #cut, the first element here...
 
 
 #NumOfLogicalColumns = length(new_logicalCols)
@@ -223,19 +223,19 @@ colnamesLogiFactors[1] #cut, the first element here...
 #columnsIndex = 1
 FreqList <- NULL
 print("Please note below is an expanded set of Frequency tables for the qualitative variables.  After this, please note that there will be a condensed Frequency Table of the counts for all the qualitative variables in the data frame. Thank you!")
-for (ColumnsIndex in 1:NumOfLogiAndFacCols){ #here, we are going to have as many printouts as there are logical and factor columns.  That is, there is exactly 1 printout for each factor variable and 1 printout for each logical variable.  
-  print("       ")
-  print("**************************************************************************")
-  print("Below, please note the Frequency Table below for this qualitative variable:")
-  print(colnamesLogiFactors[ColumnsIndex])
-  FrequencyTable = table(LogiAndFacColsDF[,ColumnsIndex])
-  FreqList <- c(FreqList, FrequencyTable)
-  print(FreqList)
+#for (ColumnsIndex in 1:NumOfLogiAndFacCols){ #here, we are going to have as many printouts as there are logical and factor columns.  That is, there is exactly 1 printout for each factor variable and 1 printout for each logical variable.  
+#  print("       ")
+#  print("**************************************************************************")
+#  print("Below, please note the Frequency Table below for this qualitative variable:")
+#  print(colnamesLogiFactors[ColumnsIndex])
+#  FrequencyTable = table(LogiAndFacColsDF[,ColumnsIndex])
+#  FreqList <- c(FreqList, FrequencyTable)
+#  print(FreqList)
   #print(FrequencyTable)
   #print(table(LogiAndFacColsDF[,ColumnsIndex]))  #please note that the table function allows us to plot the frequency tables. 
-  print("**************************************************************************") #these stars just help us distinguish between the different variables as their respective outputs are printed out.  These are just dividers
-  print("       ")
-}
+#  print("**************************************************************************") #these stars just help us distinguish between the different variables as their respective outputs are printed out.  These are just dividers
+#  print("       ")
+#}
 
 #****print(Rsq_dataframe)
 #****print(corr_df)
@@ -250,6 +250,9 @@ return(KeyList)
 print(KeyList)
 
 }
+```
+
+```{r}
 #CONVERT VAR TO STRING AND THEN CONCATENATE IT PLEASE TO GET THE TITLE. 
 #table(LogicalAndFactorColumnsNewDiamondsDF[,columnsIndex])
 require(ggplot2)
